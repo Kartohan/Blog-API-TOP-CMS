@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
 import Category from "./components/Category";
 import Post from "./components/Post";
+import NewPost from "./components/NewPost";
 import { useState } from "react";
 import PrivateRoutes from "./components/PrivateRoutes";
 import Login from "./components/Login";
@@ -13,13 +14,14 @@ function App() {
   const { decodedToken, isExpired } = useJwt(token);
   return (
     <div className="App">
-      <Header />
+      <Header user={decodedToken?.user} setToken={setToken} />
       <div className="container mx-auto px-4 mb-8">
         <Routes>
           <Route element={<PrivateRoutes isExpired={isExpired} />}>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Home user={decodedToken?.user} />} />
             <Route path="/category/:category_id" element={<Category />} />
             <Route path="/posts/:post_id" element={<Post />} />
+            <Route path="/new_post" element={<NewPost />} />
           </Route>
           <Route
             path="/login"

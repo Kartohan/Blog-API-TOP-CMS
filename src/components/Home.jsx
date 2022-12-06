@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import PostComponent from "./PostComponent";
 import Sidebar from "./Sidebar";
 
-const Home = () => {
+const Home = ({ user }) => {
   const [posts, setPosts] = useState([]);
   useEffect(() => {
     fetch("http://localhost:3001/")
@@ -17,7 +17,7 @@ const Home = () => {
       <div className="col-span-9 mt-2">
         {posts.posts &&
           posts.posts.map((post) => (
-            <PostComponent key={post._id} post={post} />
+            <PostComponent key={post._id} post={post} user={user} />
           ))}
       </div>
       <div className="col-span-3">

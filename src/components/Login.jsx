@@ -2,13 +2,14 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import displayMessage from "../assets/displayMessage";
 
 const Login = ({ setToken, isExpired }) => {
   const [form, setForm] = useState({
     username: "",
     password: "",
   });
-  const [data, setData] = useState(null);
+  const [message, setMessage] = useState(null);
   const navigate = useNavigate();
   const handleChangeForm = (e) => {
     const { name, value } = e.target;
@@ -18,10 +19,15 @@ const Login = ({ setToken, isExpired }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios.post(`http://localhost:3001/api/users/login`, form).then((res) => {
-      localStorage.setItem("token", res.data.token);
-      setToken(res.data.token);
-      if (localStorage.getItem("token")) {
-        navigate("/");
+      if (res.data.token) {
+        localStorage.setItem("token", res.data.token);
+        setToken(res.data.token);
+        if (localStorage.getItem("token")) {
+          navigate("/");
+        }
+      } else if (res.data.error) {
+        setMessage(res.data);
+        console.log(res.data);
       }
     });
   };
@@ -62,6 +68,7 @@ const Login = ({ setToken, isExpired }) => {
             required
           />
         </div>
+        <div className="my-2">{message && displayMessage(message)}</div>
         <input
           className="py-2 px-10 bg-rose-100 text-lg rounded-lg mt-8 hover:bg-rose-400 transition scale-[1.02] block mx-auto"
           type="submit"

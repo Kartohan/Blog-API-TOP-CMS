@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 
-const PostComponent = ({ post }) => {
+const PostComponent = ({ post, user }) => {
   const { imageURL, _id, categories, title, author, createdIn, description } =
     post;
   return (
