@@ -17,7 +17,12 @@ const Home = ({ user }) => {
       <div className="col-span-9 mt-2">
         {posts.posts &&
           posts.posts.map((post) => (
-            <PostComponent key={post._id} post={post} user={user} />
+            <PostComponent
+              key={post._id}
+              post={post}
+              user={user}
+              setPosts={setPosts}
+            />
           ))}
       </div>
       <div className="col-span-3">

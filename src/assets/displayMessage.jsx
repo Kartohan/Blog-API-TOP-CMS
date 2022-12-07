@@ -7,9 +7,12 @@ const displayMessage = (data) => {
     );
   }
   if (data.errors) {
-    const errors = data.errors.map((error) => {
+    const errors = data.errors.map((error, index) => {
       return (
-        <div className="mx-auto bg-red-100 px-10 py-2 w-fit rounded-lg">
+        <div
+          key={index}
+          className="mx-auto bg-red-100 px-10 py-2 w-fit rounded-lg"
+        >
           {error.msg}
         </div>
       );

@@ -1,15 +1,81 @@
+import axios from "axios";
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 
-const PostComponent = ({ post, user }) => {
-  const { imageURL, _id, categories, title, author, createdIn, description } =
-    post;
+const PostComponent = ({ post, user, setPosts }) => {
+  const {
+    imageURL,
+    _id,
+    categories,
+    title,
+    author,
+    createdIn,
+    description,
+    pinned,
+  } = post;
+  const [pin, setPin] = useState(pinned);
+  const handlePin = () => {
+    const token = localStorage.getItem("token");
+    if (pin) {
+      axios
+        .post(
+          `http://localhost:3001/api/posts/${_id}/unpin`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+        .then((res) => {
+          if (res.data.message) {
+            setPin(false);
+            post.pinned = false;
+            setPosts((prev) => ({ ...prev, post }));
+          }
+        });
+    } else if (!pin) {
+      axios
+        .post(
+          `http://localhost:3001/api/posts/${_id}/pin`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+        .then((res) => {
+          if (res.data.message) {
+            setPin(true);
+            post.pinned = true;
+            setPosts((prev) => ({ ...prev, post }));
+          }
+        });
+    }
+  };
   return (
     <div className="bg-white shadow-2xl rounded-lg p-0 pb-5 mb-8">
       <div className="relative overflow-hidden shadow-md pb-80 mb-3">
+        {user && (
+          <div className="absolute z-10 right-1 flex gap-2 mt-1">
+            <button
+              onClick={handlePin}
+              className="bg-blue-100 rounded-lg hover:bg-blue-400 transition px-2 py-1 text-xs bg-opacity-50"
+            >
+              {pin ? "Unpin Post" : "Pin Post"}
+            </button>
+            <Link
+              to={`/edit_post/${_id}`}
+              className="bg-orange-100 rounded-lg hover:bg-orange-400 transition px-3 py-2 text-xs bg-opacity-50"
+            >
+              Edit Post
+            </Link>
+          </div>
+        )}
         <Link to={`/posts/${_id}`}>
           <img
             src={`http://localhost:3001/${imageURL}`}

@@ -4,6 +4,7 @@ import Header from "./components/Header";
 import Category from "./components/Category";
 import Post from "./components/Post";
 import NewPost from "./components/NewPost";
+import EditPost from "./components/EditPost";
 import { useState } from "react";
 import PrivateRoutes from "./components/PrivateRoutes";
 import Login from "./components/Login";
@@ -22,6 +23,7 @@ function App() {
             <Route path="/category/:category_id" element={<Category />} />
             <Route path="/posts/:post_id" element={<Post />} />
             <Route path="/new_post" element={<NewPost />} />
+            <Route path="/edit_post/:post_id" element={<EditPost />} />
           </Route>
           <Route
             path="/login"
