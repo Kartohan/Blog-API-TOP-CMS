@@ -63,7 +63,7 @@ const EditPost = () => {
         postDetail: res.data.post.postDetail,
         author: res.data.post.author._id,
         category: res.data.post.categories,
-        image: null,
+        image: undefined,
       });
       setPost(res.data);
     });
