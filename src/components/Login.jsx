@@ -40,6 +40,9 @@ const Login = ({ setToken, isExpired }) => {
 
   return (
     <div>
+      <div className="text-center font-bold text-rose-600 text-4xl my-5">
+        Blog API CMS
+      </div>
       <div className="text-center font-bold text-2xl my-5">Log In</div>
       <form
         className="min-w-fit w-[33%] mx-auto"

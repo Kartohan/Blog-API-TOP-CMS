@@ -2,6 +2,7 @@ import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 const Post = () => {
@@ -9,6 +10,7 @@ const Post = () => {
   const [message, setMessage] = useState(null);
   const [data, setData] = useState([]);
   const [comments, setComments] = useState([]);
+  const [pin, setPin] = useState(null);
   const [form, setForm] = useState({
     firstname: "",
     lastname: "",
@@ -54,8 +56,17 @@ const Post = () => {
             {comment.fullname}
           </div>
           <div className="py-2">{comment.comment}</div>
-          <div className="text-right text-sm">
+          <div className="text-right text-sm flex flex-col items-end">
             {comment.timestamp_formatted}
+            <form onSubmit={handleOneCommentDelete}>
+              <input type="hidden" value={comment._id} id="comment_id" />
+              <button
+                type="submit"
+                className="relative py-1 px-3 bg-rose-100 rounded-lg text-sm hover:bg-rose-400 transition left-2"
+              >
+                Delete comment
+              </button>
+            </form>
           </div>
         </div>
       );
@@ -66,6 +77,7 @@ const Post = () => {
   useEffect(() => {
     axios.get(`http://localhost:3001/api/posts/${post_id}`).then((res) => {
       setData(res.data);
+      setPin(res.data.post.pinned);
       setComments(res.data.post.comments.reverse());
     });
   }, []);
@@ -86,11 +98,105 @@ const Post = () => {
     const inputs = [...e.target];
     inputs.map((input) => (input.value = null));
   };
+
+  const handlePin = () => {
+    const token = localStorage.getItem("token");
+    if (pin) {
+      axios
+        .post(
+          `http://localhost:3001/api/posts/${post_id}/unpin`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+        .then((res) => {
+          if (res.data.message) {
+            setPin(false);
+          }
+        });
+    } else if (!pin) {
+      axios
+        .post(
+          `http://localhost:3001/api/posts/${post_id}/pin`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+        .then((res) => {
+          if (res.data.message) {
+            setPin(true);
+          }
+        });
+    }
+  };
+
+  const handleOneCommentDelete = (e) => {
+    e.preventDefault();
+    const { comment_id } = e.target;
+    const token = localStorage.getItem("token");
+    axios
+      .delete(
+        `http://localhost:3001/api/posts/${post_id}/${comment_id.value}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+        {}
+      )
+      .then((res) => {
+        if (res.data.message) {
+          let newComments = comments;
+          newComments = newComments.filter(
+            (comment) => comment._id !== comment_id.value
+          );
+          setComments(newComments);
+        }
+      });
+  };
+  const handleDeleteAllComments = () => {
+    const token = localStorage.getItem("token");
+    axios
+      .delete(
+        `http://localhost:3001/api/posts/${post_id}/comments`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+        {}
+      )
+      .then((res) => {
+        if (res.data.message) {
+          setComments([]);
+        }
+      });
+  };
   return (
     <div>
       {data.post && (
         <div>
-          <div className="h-96">
+          <div className="h-96 relative">
+            <div className="absolute z-10 right-1 flex gap-2 mt-1">
+              <button
+                onClick={handlePin}
+                className="bg-blue-100 rounded-lg hover:bg-blue-400 transition px-2 py-1 text-xs bg-opacity-50"
+              >
+                {pin ? "Unpin Post" : "Pin Post"}
+              </button>
+              <Link
+                to={`/edit_post/${post_id}`}
+                className="bg-orange-100 rounded-lg hover:bg-orange-400 transition px-3 py-2 text-xs bg-opacity-50"
+              >
+                Edit Post
+              </Link>
+            </div>
             <img
               className="h-full w-full object-cover rounded-lg shadow-lg"
               src={`http://localhost:3001/${data.post.imageURL}`}
@@ -170,6 +276,19 @@ const Post = () => {
             />
           </form>
           <div className="text-center text-xl font-bold my-5">Comments</div>
+          {comments.length === 0 ? (
+            <h1 className="bg-blue-100 px-8 py-3 rounded-lg w-fit mx-auto my-5">
+              There is no comments
+            </h1>
+          ) : (
+            <button
+              onClick={handleDeleteAllComments}
+              className="py-2 px-10 bg-rose-100 rounded-lg mt-8 hover:bg-rose-400 transition mx-auto my-3 block"
+            >
+              Delete all comments
+            </button>
+          )}
+
           {comments && displayComments(comments)}
         </div>
       )}
