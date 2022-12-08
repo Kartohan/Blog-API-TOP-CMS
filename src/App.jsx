@@ -5,6 +5,8 @@ import Category from "./components/Category";
 import Post from "./components/Post";
 import NewPost from "./components/NewPost";
 import EditPost from "./components/EditPost";
+import NewAuthor from "./components/NewAuthor";
+import NewCategory from "./components/NewCategory";
 import { useState } from "react";
 import PrivateRoutes from "./components/PrivateRoutes";
 import Login from "./components/Login";
@@ -24,6 +26,11 @@ function App() {
             <Route path="/posts/:post_id" element={<Post />} />
             <Route path="/new_post" element={<NewPost />} />
             <Route path="/edit_post/:post_id" element={<EditPost />} />
+            <Route path="/new_category" element={<NewCategory />} />
+            <Route
+              path="/new_author"
+              element={<NewAuthor user={decodedToken?.user} />}
+            />
           </Route>
           <Route
             path="/login"

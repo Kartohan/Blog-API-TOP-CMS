@@ -49,6 +49,18 @@ const Header = ({ user, setToken }) => {
             >
               Create new Post
             </Link>
+            <Link
+              className="font-bold hover:bg-rose-400 rounded-md p-2 transition"
+              to="/new_author"
+            >
+              Create new Author
+            </Link>
+            <Link
+              className="font-bold hover:bg-rose-400 rounded-md p-2 transition"
+              to="/new_category"
+            >
+              Create new Category
+            </Link>
           </div>
           <div className="flex gap-10 items-center">
             <div>{user.username}</div>
