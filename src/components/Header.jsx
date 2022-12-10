@@ -4,18 +4,8 @@ import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const Header = ({ user, setToken }) => {
+const Header = ({ user, setToken, categories }) => {
   const navigate = useNavigate();
-  const [category, setCategory] = useState([]);
-  useEffect(() => {
-    fetch("http://localhost:3001/api/category")
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        setCategory(data);
-      });
-  }, []);
   const logOutHandler = () => {
     localStorage.setItem("token", "");
     setToken(null);
@@ -28,8 +18,8 @@ const Header = ({ user, setToken }) => {
           My Awesome Blog
         </Link>
         <div className="flex gap-5">
-          {category.categories &&
-            category.categories.map((item) => (
+          {categories?.categories &&
+            categories.categories.map((item) => (
               <Link
                 className="hover:bg-rose-400 rounded-md p-2 transition"
                 key={item._id}

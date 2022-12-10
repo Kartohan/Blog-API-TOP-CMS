@@ -4,22 +4,10 @@ import axios from "axios";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import displayMessage from "../assets/displayMessage";
-import { useLocation } from "react-router-dom";
 
-const Manager = () => {
-  const [authors, setAuthors] = useState(null);
-  const [categories, setCategories] = useState(null);
+const Manager = ({ authors, categories, setAuthors, setCategories }) => {
   const [message, setMessage] = useState(null);
   const navigate = useNavigate();
-  const location = useLocation();
-  useEffect(() => {
-    axios.get("http://localhost:3001/api/author").then((res) => {
-      setAuthors(res.data);
-    });
-    axios.get("http://localhost:3001/api/category").then((res) => {
-      setCategories(res.data);
-    });
-  }, []);
   const handleAuthorDelete = (e) => {
     e.preventDefault();
     const { author_id } = e.target;
@@ -45,11 +33,35 @@ const Manager = () => {
         }
         if (res.data.message) {
           setMessage(res.data);
-          let newAuthors = authors;
-          newAuthors.authors = newAuthors.authors.filter(
-            (author) => author._id != author_id.value
-          );
-          setAuthors(newAuthors);
+          axios
+            .get("http://localhost:3001/api/author")
+            .then((res) => setAuthors(res.data));
+        }
+      });
+  };
+  const handleCategoryDelete = (e) => {
+    e.preventDefault();
+    const { category_id } = e.target;
+    const token = localStorage.getItem("token");
+    axios
+      .delete(
+        `http://localhost:3001/api/category/${category_id.value}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+        {}
+      )
+      .then((res) => {
+        if (res.data.error) {
+          setMessage(res.data);
+        }
+        if (res.data.message) {
+          setMessage(res.data);
+          axios
+            .get("http://localhost:3001/api/category")
+            .then((res) => setCategories(res.data));
         }
       });
   };
@@ -100,14 +112,17 @@ const Manager = () => {
         Create new Category
       </Link>
       <div className="flex flex-col gap-2">
-        {categories &&
+        {categories?.categories &&
           categories.categories.map((category) => (
             <div className="flex justify-between" key={category._id}>
               <p>{category.name}</p>
               <div className="flex gap-2">
-                <button className="py-1 px-3 bg-rose-100 rounded-lg text-sm hover:bg-rose-400 transition">
-                  Delete
-                </button>
+                <form onSubmit={handleCategoryDelete} action="">
+                  <input type="hidden" value={category._id} id="category_id" />
+                  <button className="py-1 px-3 bg-rose-100 rounded-lg text-sm hover:bg-rose-400 transition">
+                    Delete
+                  </button>
+                </form>
               </div>
             </div>
           ))}

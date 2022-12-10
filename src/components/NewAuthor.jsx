@@ -1,8 +1,8 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import displayMessage from "../assets/displayMessage";
 import axios from "axios";
 
-const NewAuthor = ({ user }) => {
+const NewAuthor = ({ user, setAuthors }) => {
   const [message, setMessage] = useState(null);
   const [form, setForm] = useState({
     firstname: "",
@@ -27,11 +27,17 @@ const NewAuthor = ({ user }) => {
       .then((res) => {
         if (res.data) {
           setMessage(res.data);
+          axios
+            .get("http://localhost:3001/api/author")
+            .then((res) => setAuthors(res.data));
           setForm({
             firstname: "",
             lastname: "",
             description: "",
           });
+        }
+        if (res.data.errors) {
+          setMessage(res.data);
         }
       });
   };

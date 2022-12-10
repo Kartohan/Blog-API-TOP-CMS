@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import displayMessage from "../assets/displayMessage";
 import axios from "axios";
 
-const EditAuthor = () => {
+const EditAuthor = ({ setAuthors }) => {
   const [message, setMessage] = useState(null);
   const [author, setAuthor] = useState(null);
   const [form, setForm] = useState({
@@ -39,9 +39,14 @@ const EditAuthor = () => {
         },
       })
       .then((res) => {
-        console.log(res);
         if (res.data.message) {
+          axios
+            .get("http://localhost:3001/api/author")
+            .then((res) => setAuthors(res.data));
           navigate("/manager");
+        }
+        if (res.data.errors) {
+          setMessage(res.data);
         }
       });
   };

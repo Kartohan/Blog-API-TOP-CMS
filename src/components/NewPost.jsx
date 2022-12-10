@@ -5,9 +5,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import displayMessage from "../assets/displayMessage";
 
-const NewPost = () => {
-  const [authors, setAuthors] = useState(null);
-  const [categories, setCategories] = useState(null);
+const NewPost = ({ categories, authors }) => {
   const [message, setMessage] = useState(null);
   const [form, setForm] = useState({
     title: "",
@@ -54,14 +52,6 @@ const NewPost = () => {
         }
       });
   };
-  useEffect(() => {
-    axios
-      .get("http://localhost:3001/api/author")
-      .then((res) => setAuthors(res.data));
-    axios
-      .get("http://localhost:3001/api/category")
-      .then((res) => setCategories(res.data));
-  }, []);
   return (
     <div>
       <div className="max-w-[600px] mx-auto">

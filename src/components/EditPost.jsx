@@ -4,9 +4,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import displayMessage from "../assets/displayMessage";
 
-const EditPost = () => {
-  const [authors, setAuthors] = useState(null);
-  const [categories, setCategories] = useState(null);
+const EditPost = ({ categories, authors }) => {
   const [message, setMessage] = useState(null);
   const [post, setPost] = useState(null);
   const [form, setForm] = useState({
@@ -53,6 +51,9 @@ const EditPost = () => {
         if (res.data.message) {
           navigate(`/posts/${res.data.post._id}`);
         }
+        if (res.data.errors) {
+          setMessage(res.data);
+        }
       });
   };
   useEffect(() => {
@@ -67,14 +68,6 @@ const EditPost = () => {
       });
       setPost(res.data);
     });
-  }, []);
-  useEffect(() => {
-    axios
-      .get("http://localhost:3001/api/author")
-      .then((res) => setAuthors(res.data));
-    axios
-      .get("http://localhost:3001/api/category")
-      .then((res) => setCategories(res.data));
   }, []);
   return (
     <div>
