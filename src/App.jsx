@@ -7,6 +7,9 @@ import NewPost from "./components/NewPost";
 import EditPost from "./components/EditPost";
 import NewAuthor from "./components/NewAuthor";
 import NewCategory from "./components/NewCategory";
+import Manager from "./components/Manager";
+import AuthorPosts from "./components/AuthorPosts";
+import EditAuthor from "./components/EditAuthor";
 import { useState } from "react";
 import PrivateRoutes from "./components/PrivateRoutes";
 import Login from "./components/Login";
@@ -27,6 +30,9 @@ function App() {
             <Route path="/new_post" element={<NewPost />} />
             <Route path="/edit_post/:post_id" element={<EditPost />} />
             <Route path="/new_category" element={<NewCategory />} />
+            <Route path="/manager" element={<Manager />} />
+            <Route path="/author_posts" element={<AuthorPosts />} />
+            <Route path="/edit_author/:author_id" element={<EditAuthor />} />
             <Route
               path="/new_author"
               element={<NewAuthor user={decodedToken?.user} />}

@@ -51,15 +51,9 @@ const Header = ({ user, setToken }) => {
             </Link>
             <Link
               className="font-bold hover:bg-rose-400 rounded-md p-2 transition"
-              to="/new_author"
+              to="/manager"
             >
-              Create new Author
-            </Link>
-            <Link
-              className="font-bold hover:bg-rose-400 rounded-md p-2 transition"
-              to="/new_category"
-            >
-              Create new Category
+              Manager
             </Link>
           </div>
           <div className="flex gap-10 items-center">
