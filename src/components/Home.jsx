@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import PostComponent from "./PostComponent";
 import Sidebar from "./Sidebar";
+import CommentsBar from "./CommentsBar";
 
 const Home = ({ user }) => {
   const [posts, setPosts] = useState([]);
@@ -15,9 +16,12 @@ const Home = ({ user }) => {
   }, []);
   return (
     <div className="grid lg:grid-cols-12 lg:gap-12">
-      <div className="lg:col-span-3 lg:order-last mb-5">
+      <div className="lg:col-span-3 lg:order-2 mb-5">
         <div className="shadow-lg rounded-lg">
           <Sidebar posts={posts} />
+        </div>
+        <div className="shadow-lg rounded-lg mb-5 lg:block hidden">
+          <CommentsBar />
         </div>
       </div>
       <div className="lg:col-span-9 mt-2">
@@ -31,7 +35,6 @@ const Home = ({ user }) => {
             />
           ))}
       </div>
-      <div></div>
     </div>
   );
 };

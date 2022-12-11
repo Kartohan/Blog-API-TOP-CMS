@@ -15,7 +15,11 @@ const Sidebar = ({ posts }) => {
       <div className="flex flex-col gap-2">
         {pinned &&
           pinned.map((post) => (
-            <Link key={post._id} to={`/posts/${post._id}`}>
+            <Link
+              className="font-bold hover:text-rose-500"
+              key={post._id}
+              to={`/posts/${post._id}`}
+            >
               {post.title}
             </Link>
           ))}
