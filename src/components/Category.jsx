@@ -10,7 +10,10 @@ const Category = () => {
   useEffect(() => {
     fetch(`http://localhost:3001/api/category/${category_id}`)
       .then((res) => res.json())
-      .then((data) => setData(data));
+      .then((data) => {
+        data.posts.reverse();
+        setData(data);
+      });
   }, [category_id]);
   return (
     <div>

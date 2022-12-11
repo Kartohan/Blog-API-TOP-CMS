@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { Navbar, Dropdown, Avatar } from "flowbite-react";
 
 const Header = ({ user, setToken, categories }) => {
   const navigate = useNavigate();
@@ -13,11 +14,33 @@ const Header = ({ user, setToken, categories }) => {
   };
   return (
     <div className="mb-4 mt-2 container mx-auto">
-      <nav className="flex container justify-between mx-auto px-4 items-center gap-2 h-10 mt-1">
+      <Navbar fluid={false} rounded={true}>
         <Link to="/" className="hover-underline font-bold text-xl">
           My Awesome Blog
         </Link>
-        <div className="flex gap-5">
+
+        {user && (
+          <div className="flex md:order-2 items-center gap-2">
+            <Dropdown
+              arrowIcon={true}
+              inline={true}
+              label={user && user.username}
+              className="z-20"
+            >
+              <Dropdown.Item>
+                <Link to="/new_post">Create new Post</Link>
+              </Dropdown.Item>
+              <Dropdown.Item>
+                <Link to="/manager">Manager</Link>
+              </Dropdown.Item>
+              <Dropdown.Divider />
+              <Dropdown.Item onClick={logOutHandler}>Log Out</Dropdown.Item>
+            </Dropdown>
+          </div>
+        )}
+        <Navbar.Toggle />
+
+        <Navbar.Collapse>
           {categories?.categories &&
             categories.categories.map((item) => (
               <Link
@@ -28,35 +51,8 @@ const Header = ({ user, setToken, categories }) => {
                 {item.name}
               </Link>
             ))}
-        </div>
-      </nav>
-      {user && (
-        <div className="h-12 flex justify-between px-5">
-          <div className="items-center flex">
-            <Link
-              className="font-bold hover:bg-rose-400 rounded-md p-2 transition"
-              to="/new_post"
-            >
-              Create new Post
-            </Link>
-            <Link
-              className="font-bold hover:bg-rose-400 rounded-md p-2 transition"
-              to="/manager"
-            >
-              Manager
-            </Link>
-          </div>
-          <div className="flex gap-10 items-center">
-            <div>{user.username}</div>
-            <button
-              onClick={logOutHandler}
-              className="hover:bg-rose-400 rounded-md p-2 transition"
-            >
-              Log Out
-            </button>
-          </div>
-        </div>
-      )}
+        </Navbar.Collapse>
+      </Navbar>
     </div>
   );
 };

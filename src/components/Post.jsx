@@ -1,9 +1,11 @@
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { Modal, Button } from "flowbite-react";
+import { HiOutlineExclamationCircle } from "react-icons/hi";
 
 const Post = () => {
   const { post_id } = useParams();
@@ -11,13 +13,15 @@ const Post = () => {
   const [data, setData] = useState([]);
   const [comments, setComments] = useState([]);
   const [pin, setPin] = useState(null);
+  const [modal, setModal] = useState(false);
+  const [modalDelete, setModalDelete] = useState(false);
   const [form, setForm] = useState({
     firstname: "",
     lastname: "",
     email: "",
     comment: "",
   });
-
+  const navigate = useNavigate();
   const displayMessage = (data) => {
     if (data.message) {
       return (
@@ -175,14 +179,90 @@ const Post = () => {
       .then((res) => {
         if (res.data.message) {
           setComments([]);
+          setModalDelete(!modalDelete);
         }
       });
   };
+  const handlePostDelete = () => {
+    const token = localStorage.getItem("token");
+    axios
+      .delete(
+        `http://localhost:3001/api/posts/${post_id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+        {}
+      )
+      .then((res) => {
+        if (res.data.message) {
+          navigate("/");
+        }
+      });
+  };
+  const handleModal = () => {
+    setModal(!modal);
+  };
+  const handleDeleteModal = () => {
+    setModalDelete(!modalDelete);
+  };
   return (
     <div>
+      <Modal show={modal} size="md" popup={true} onClose={handleModal}>
+        <Modal.Header />
+        <Modal.Body>
+          <div className="text-center">
+            <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
+            <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+              Are you sure you want to delete this post?
+            </h3>
+            <div className="flex justify-center gap-4">
+              <Button color="failure" onClick={handlePostDelete}>
+                Yes, I'm sure
+              </Button>
+              <Button color="gray" onClick={handleModal}>
+                No, cancel
+              </Button>
+            </div>
+          </div>
+        </Modal.Body>
+      </Modal>
+      <Modal
+        show={modalDelete}
+        size="md"
+        popup={true}
+        onClose={handleDeleteModal}
+      >
+        <Modal.Header />
+        <Modal.Body>
+          <div className="text-center">
+            <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
+            <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+              Are you sure you want to delete All Comments to this post?
+            </h3>
+            <div className="flex justify-center gap-4">
+              <Button color="failure" onClick={handleDeleteAllComments}>
+                Yes, I'm sure
+              </Button>
+              <Button color="gray" onClick={handleDeleteModal}>
+                No, cancel
+              </Button>
+            </div>
+          </div>
+        </Modal.Body>
+      </Modal>
       {data.post && (
         <div>
           <div className="h-96 relative">
+            <div className="absolute z-10 left-2 mt-1">
+              <button
+                onClick={handleModal}
+                className="bg-rose-100 rounded-lg hover:bg-rose-400 transition px-2 py-2 text-xs bg-opacity-50"
+              >
+                Delete Post
+              </button>
+            </div>
             <div className="absolute z-10 right-1 flex gap-2 mt-1">
               <button
                 onClick={handlePin}
@@ -282,7 +362,7 @@ const Post = () => {
             </h1>
           ) : (
             <button
-              onClick={handleDeleteAllComments}
+              onClick={handleDeleteModal}
               className="py-2 px-10 bg-rose-100 rounded-lg mt-8 hover:bg-rose-400 transition mx-auto my-3 block"
             >
               Delete all comments

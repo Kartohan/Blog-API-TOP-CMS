@@ -1,11 +1,13 @@
 import React from "react";
-import { useEffect } from "react";
 import axios from "axios";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import displayMessage from "../assets/displayMessage";
+import { Modal, Button } from "flowbite-react";
+import { HiOutlineExclamationCircle } from "react-icons/hi";
 
 const Manager = ({ authors, categories, setAuthors, setCategories }) => {
+  const [modal, setModal] = useState(false);
   const [message, setMessage] = useState(null);
   const navigate = useNavigate();
   const handleAuthorDelete = (e) => {
@@ -59,11 +61,15 @@ const Manager = ({ authors, categories, setAuthors, setCategories }) => {
         }
         if (res.data.message) {
           setMessage(res.data);
+          setModal(!modal);
           axios
             .get("http://localhost:3001/api/category")
             .then((res) => setCategories(res.data));
         }
       });
+  };
+  const handleModal = () => {
+    setModal(!modal);
   };
   return (
     <div>
@@ -117,13 +123,40 @@ const Manager = ({ authors, categories, setAuthors, setCategories }) => {
             <div className="flex justify-between" key={category._id}>
               <p>{category.name}</p>
               <div className="flex gap-2">
-                <form onSubmit={handleCategoryDelete} action="">
-                  <input type="hidden" value={category._id} id="category_id" />
-                  <button className="py-1 px-3 bg-rose-100 rounded-lg text-sm hover:bg-rose-400 transition">
-                    Delete
-                  </button>
-                </form>
+                <button
+                  onClick={handleModal}
+                  className="py-1 px-3 bg-rose-100 rounded-lg text-sm hover:bg-rose-400 transition"
+                >
+                  Delete
+                </button>
               </div>
+              <Modal show={modal} size="md" popup={true} onClose={handleModal}>
+                <Modal.Header />
+                <Modal.Body>
+                  <div className="text-center">
+                    <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
+                    <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+                      Are you sure you want to delete "{category.name}"
+                      category?
+                    </h3>
+                    <div className="flex justify-center gap-4">
+                      <form onSubmit={handleCategoryDelete} action="">
+                        <input
+                          type="hidden"
+                          value={category._id}
+                          id="category_id"
+                        />
+                        <Button type="submit" color="failure">
+                          Yes, I'm sure
+                        </Button>
+                      </form>
+                      <Button color="gray" onClick={handleModal}>
+                        No, cancel
+                      </Button>
+                    </div>
+                  </div>
+                </Modal.Body>
+              </Modal>
             </div>
           ))}
       </div>

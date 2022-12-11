@@ -18,9 +18,10 @@ import axios from "axios";
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem("token"));
-  const { decodedToken, isExpired } = useJwt(token);
+  let { decodedToken, isExpired } = useJwt(token);
   const [categories, setCategories] = useState(null);
   const [authors, setAuthors] = useState(null);
+  isExpired === true ? (decodedToken = null) : null;
   useEffect(() => {
     axios
       .get("http://localhost:3001/api/category")
