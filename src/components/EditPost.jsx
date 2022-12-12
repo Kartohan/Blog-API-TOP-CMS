@@ -39,7 +39,7 @@ const EditPost = ({ categories, authors }) => {
     e.preventDefault();
     axios
       .put(
-        `http://blog-api-top-server-production.up.railway.app/api/posts/${post_id}`,
+        `https://blog-api-top-server-production.up.railway.app/api/posts/${post_id}`,
         form,
         {
           headers: {
@@ -63,7 +63,7 @@ const EditPost = ({ categories, authors }) => {
   useEffect(() => {
     axios
       .get(
-        `http://blog-api-top-server-production.up.railway.app/api/posts/${post_id}`
+        `https://blog-api-top-server-production.up.railway.app/api/posts/${post_id}`
       )
       .then((res) => {
         setForm({

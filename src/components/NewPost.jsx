@@ -37,7 +37,7 @@ const NewPost = ({ categories, authors }) => {
     e.preventDefault();
     axios
       .post(
-        "http://blog-api-top-server-production.up.railway.app/api/posts/new_post",
+        "https://blog-api-top-server-production.up.railway.app/api/posts/new_post",
         form,
         {
           headers: {
