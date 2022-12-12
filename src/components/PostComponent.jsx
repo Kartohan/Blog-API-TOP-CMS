@@ -20,7 +20,7 @@ const PostComponent = ({ post, user, setPosts }) => {
     if (pin) {
       axios
         .post(
-          `http://localhost:3001/api/posts/${_id}/unpin`,
+          `http://blog-api-top-server-production.up.railway.app/api/posts/${_id}/unpin`,
           {},
           {
             headers: {
@@ -38,7 +38,7 @@ const PostComponent = ({ post, user, setPosts }) => {
     } else if (!pin) {
       axios
         .post(
-          `http://localhost:3001/api/posts/${_id}/pin`,
+          `http://blog-api-top-server-production.up.railway.app/api/posts/${_id}/pin`,
           {},
           {
             headers: {
@@ -76,7 +76,7 @@ const PostComponent = ({ post, user, setPosts }) => {
         )}
         <Link to={`/posts/${_id}`}>
           <img
-            src={`http://localhost:3001/${imageURL}`}
+            src={`http://blog-api-top-server-production.up.railway.app/${imageURL}`}
             alt={title}
             className="object-center absolute h-80 w-full object-cover shadow-lg rounded-lg hover:scale-110 transition duration-700"
           />

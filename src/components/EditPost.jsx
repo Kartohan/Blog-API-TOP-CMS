@@ -38,12 +38,16 @@ const EditPost = ({ categories, authors }) => {
     const token = localStorage.getItem("token");
     e.preventDefault();
     axios
-      .put(`http://localhost:3001/api/posts/${post_id}`, form, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "multipart/form-data",
-        },
-      })
+      .put(
+        `http://blog-api-top-server-production.up.railway.app/api/posts/${post_id}`,
+        form,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      )
       .then((res) => {
         if (res.data) {
           setMessage(res.data);
@@ -57,17 +61,21 @@ const EditPost = ({ categories, authors }) => {
       });
   };
   useEffect(() => {
-    axios.get(`http://localhost:3001/api/posts/${post_id}`).then((res) => {
-      setForm({
-        title: res.data.post.title,
-        description: res.data.post.description,
-        postDetail: res.data.post.postDetail,
-        author: res.data.post.author._id,
-        category: res.data.post.categories,
-        image: undefined,
+    axios
+      .get(
+        `http://blog-api-top-server-production.up.railway.app/api/posts/${post_id}`
+      )
+      .then((res) => {
+        setForm({
+          title: res.data.post.title,
+          description: res.data.post.description,
+          postDetail: res.data.post.postDetail,
+          author: res.data.post.author._id,
+          category: res.data.post.categories,
+          image: undefined,
+        });
+        setPost(res.data);
       });
-      setPost(res.data);
-    });
   }, []);
   return (
     <div>

@@ -18,18 +18,23 @@ const Login = ({ setToken, isExpired }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post(`http://localhost:3001/api/users/login`, form).then((res) => {
-      if (res.data.token) {
-        localStorage.setItem("token", res.data.token);
-        setToken(res.data.token);
-        if (localStorage.getItem("token")) {
-          navigate("/");
+    axios
+      .post(
+        `http://blog-api-top-server-production.up.railway.app/api/users/login`,
+        form
+      )
+      .then((res) => {
+        if (res.data.token) {
+          localStorage.setItem("token", res.data.token);
+          setToken(res.data.token);
+          if (localStorage.getItem("token")) {
+            navigate("/");
+          }
+        } else if (res.data.error) {
+          setMessage(res.data);
+          console.log(res.data);
         }
-      } else if (res.data.error) {
-        setMessage(res.data);
-        console.log(res.data);
-      }
-    });
+      });
   };
 
   useEffect(() => {

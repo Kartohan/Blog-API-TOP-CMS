@@ -16,7 +16,7 @@ const Manager = ({ authors, categories, setAuthors, setCategories }) => {
     const token = localStorage.getItem("token");
     axios
       .delete(
-        `http://localhost:3001/api/author/${author_id.value}`,
+        `http://blog-api-top-server-production.up.railway.app/api/author/${author_id.value}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -36,7 +36,9 @@ const Manager = ({ authors, categories, setAuthors, setCategories }) => {
         if (res.data.message) {
           setMessage(res.data);
           axios
-            .get("http://localhost:3001/api/author")
+            .get(
+              "http://blog-api-top-server-production.up.railway.app/api/author"
+            )
             .then((res) => setAuthors(res.data));
         }
       });
@@ -47,7 +49,7 @@ const Manager = ({ authors, categories, setAuthors, setCategories }) => {
     const token = localStorage.getItem("token");
     axios
       .delete(
-        `http://localhost:3001/api/category/${category_id.value}`,
+        `http://blog-api-top-server-production.up.railway.app/api/category/${category_id.value}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -63,7 +65,9 @@ const Manager = ({ authors, categories, setAuthors, setCategories }) => {
           setMessage(res.data);
           setModal(!modal);
           axios
-            .get("http://localhost:3001/api/category")
+            .get(
+              "http://blog-api-top-server-production.up.railway.app/api/category"
+            )
             .then((res) => setCategories(res.data));
         }
       });

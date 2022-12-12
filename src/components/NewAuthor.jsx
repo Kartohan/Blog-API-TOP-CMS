@@ -19,16 +19,22 @@ const NewAuthor = ({ user, setAuthors }) => {
     const { _id } = user;
     let newForm = { ...form, user: _id };
     axios
-      .post("http://localhost:3001/api/author/new_author", newForm, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      .post(
+        "http://blog-api-top-server-production.up.railway.app/api/author/new_author",
+        newForm,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
       .then((res) => {
         if (res.data) {
           setMessage(res.data);
           axios
-            .get("http://localhost:3001/api/author")
+            .get(
+              "http://blog-api-top-server-production.up.railway.app/api/author"
+            )
             .then((res) => setAuthors(res.data));
           setForm({
             firstname: "",

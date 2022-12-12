@@ -14,16 +14,20 @@ const EditAuthor = ({ setAuthors }) => {
   const navigate = useNavigate();
   const { author_id } = useParams();
   useEffect(() => {
-    axios.get(`http://localhost:3001/api/author/${author_id}`).then((res) => {
-      if (res.data.author) {
-        setAuthor(res.data.author);
-        setForm({
-          firstname: res.data.author.firstname,
-          lastname: res.data.author.lastname,
-          description: res.data.author.description,
-        });
-      }
-    });
+    axios
+      .get(
+        `http://blog-api-top-server-production.up.railway.app/api/author/${author_id}`
+      )
+      .then((res) => {
+        if (res.data.author) {
+          setAuthor(res.data.author);
+          setForm({
+            firstname: res.data.author.firstname,
+            lastname: res.data.author.lastname,
+            description: res.data.author.description,
+          });
+        }
+      });
   }, []);
   const handleChangeForm = (e) => {
     const { name, value } = e.target;
@@ -33,15 +37,21 @@ const EditAuthor = ({ setAuthors }) => {
     const token = localStorage.getItem("token");
     e.preventDefault();
     axios
-      .put(`http://localhost:3001/api/author/${author_id}`, form, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      .put(
+        `http://blog-api-top-server-production.up.railway.app/api/author/${author_id}`,
+        form,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
       .then((res) => {
         if (res.data.message) {
           axios
-            .get("http://localhost:3001/api/author")
+            .get(
+              "http://blog-api-top-server-production.up.railway.app/api/author"
+            )
             .then((res) => setAuthors(res.data));
           navigate("/manager");
         }

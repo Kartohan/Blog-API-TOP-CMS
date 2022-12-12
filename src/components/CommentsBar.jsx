@@ -5,7 +5,9 @@ const CommentsBar = () => {
   const [comments, setComments] = useState(null);
   useEffect(() => {
     axios
-      .get("http://localhost:3001/api/posts/last_comments")
+      .get(
+        "http://blog-api-top-server-production.up.railway.app/api/posts/last_comments"
+      )
       .then((res) => setComments(res.data));
   }, []);
   return (

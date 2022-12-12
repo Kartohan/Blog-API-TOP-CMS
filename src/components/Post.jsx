@@ -79,11 +79,15 @@ const Post = () => {
   };
 
   useEffect(() => {
-    axios.get(`http://localhost:3001/api/posts/${post_id}`).then((res) => {
-      setData(res.data);
-      setPin(res.data.post.pinned);
-      setComments(res.data.post.comments.reverse());
-    });
+    axios
+      .get(
+        `http://blog-api-top-server-production.up.railway.app/api/posts/${post_id}`
+      )
+      .then((res) => {
+        setData(res.data);
+        setPin(res.data.post.pinned);
+        setComments(res.data.post.comments.reverse());
+      });
   }, []);
 
   const handleChangeForm = (e) => {
@@ -94,7 +98,10 @@ const Post = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post(`http://localhost:3001/api/posts/${post_id}/new_comment`, form)
+      .post(
+        `http://blog-api-top-server-production.up.railway.app/api/posts/${post_id}/new_comment`,
+        form
+      )
       .then((res) => {
         setMessage(res.data);
         setComments((prev) => [res.data.newComment, ...prev]);
@@ -108,7 +115,7 @@ const Post = () => {
     if (pin) {
       axios
         .post(
-          `http://localhost:3001/api/posts/${post_id}/unpin`,
+          `http://blog-api-top-server-production.up.railway.app/api/posts/${post_id}/unpin`,
           {},
           {
             headers: {
@@ -124,7 +131,7 @@ const Post = () => {
     } else if (!pin) {
       axios
         .post(
-          `http://localhost:3001/api/posts/${post_id}/pin`,
+          `http://blog-api-top-server-production.up.railway.app/api/posts/${post_id}/pin`,
           {},
           {
             headers: {
@@ -146,7 +153,7 @@ const Post = () => {
     const token = localStorage.getItem("token");
     axios
       .delete(
-        `http://localhost:3001/api/posts/${post_id}/${comment_id.value}`,
+        `http://blog-api-top-server-production.up.railway.app/api/posts/${post_id}/${comment_id.value}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -168,7 +175,7 @@ const Post = () => {
     const token = localStorage.getItem("token");
     axios
       .delete(
-        `http://localhost:3001/api/posts/${post_id}/comments`,
+        `http://blog-api-top-server-production.up.railway.app/api/posts/${post_id}/comments`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -187,7 +194,7 @@ const Post = () => {
     const token = localStorage.getItem("token");
     axios
       .delete(
-        `http://localhost:3001/api/posts/${post_id}`,
+        `http://blog-api-top-server-production.up.railway.app/api/posts/${post_id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -279,7 +286,7 @@ const Post = () => {
             </div>
             <img
               className="h-full w-full object-cover rounded-lg shadow-lg"
-              src={`http://localhost:3001/${data.post.imageURL}`}
+              src={`http://blog-api-top-server-production.up.railway.app/${data.post.imageURL}`}
               alt=""
             />
           </div>
@@ -296,7 +303,7 @@ const Post = () => {
           <div className="text-center font-bold text-xl mb-3">Send comment</div>
           {message && displayMessage(message)}
           <form
-            action={`http://localhost:3001/api/posts/${data.post._id}/new_comment`}
+            action={`http://blog-api-top-server-production.up.railway.app/api/posts/${data.post._id}/new_comment`}
             method="POST"
             className="mx-auto lg:min-w-fit lg:w-1/2"
             onSubmit={handleSubmit}

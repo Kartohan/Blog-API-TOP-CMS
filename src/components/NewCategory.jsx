@@ -17,16 +17,22 @@ const NewCategory = ({ setCategories }) => {
     const token = localStorage.getItem("token");
     e.preventDefault();
     axios
-      .post("http://localhost:3001/api/category/new_category", form, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      .post(
+        "http://blog-api-top-server-production.up.railway.app/api/category/new_category",
+        form,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
       .then((res) => {
         if (res.data.message) {
           setCategories(() =>
             axios
-              .get("http://localhost:3001/api/category")
+              .get(
+                "http://blog-api-top-server-production.up.railway.app/api/category"
+              )
               .then((res) => setCategories(res.data))
           );
           navigate("/manager");

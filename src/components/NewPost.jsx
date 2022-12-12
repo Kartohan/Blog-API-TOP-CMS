@@ -36,12 +36,16 @@ const NewPost = ({ categories, authors }) => {
     const token = localStorage.getItem("token");
     e.preventDefault();
     axios
-      .post("http://localhost:3001/api/posts/new_post", form, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "multipart/form-data",
-        },
-      })
+      .post(
+        "http://blog-api-top-server-production.up.railway.app/api/posts/new_post",
+        form,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      )
       .then((res) => {
         if (res.data) {
           setMessage(res.data);
