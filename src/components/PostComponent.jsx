@@ -1,8 +1,6 @@
 import axios from "axios";
 import React from "react";
-import { useEffect } from "react";
 import { useState } from "react";
-import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 const PostComponent = ({ post, user, setPosts }) => {
@@ -89,7 +87,7 @@ const PostComponent = ({ post, user, setPosts }) => {
         <div className="flex gap-x-2">
           <div>{author.fullname}</div>|<div>{post.timestamp_formatted}</div>
         </div>
-        <div>{description}</div>
+        <div className="px-2 text-center">{description}</div>
         <div className="mt-1">
           <Link
             className="bg-rose-100 rounded-lg hover:bg-rose-400 transition px-3 py-2 inline-block hover:scale-[1.03]"

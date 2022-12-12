@@ -1,6 +1,5 @@
 import axios from "axios";
 import React from "react";
-import { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import displayMessage from "../assets/displayMessage";
@@ -151,7 +150,7 @@ const NewPost = ({ categories, authors }) => {
               id="image"
               accept=".png, .jpg, .jpeg"
               onChange={handleChangeForm}
-              className="file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:transition file:bg-rose-100 hover:file:bg-rose-300"
+              className="file:!bg-rose-100 file:!text-black file:hover:!bg-rose-400 file:!rounded-lg file:!m-0 file:!mr-3 file:!px-4"
               required
             />
           </div>

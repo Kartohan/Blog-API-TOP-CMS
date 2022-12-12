@@ -298,10 +298,10 @@ const Post = () => {
           <form
             action={`http://localhost:3001/api/posts/${data.post._id}/new_comment`}
             method="POST"
-            className="min-w-fit w-1/2 mx-auto"
+            className="mx-auto lg:min-w-fit lg:w-1/2"
             onSubmit={handleSubmit}
           >
-            <div className="flex flex-row gap-x-5">
+            <div className="flex flex-row gap-x-5 flex-wrap lg:flex-nowrap">
               <div className="w-full flex flex-col">
                 <label className="p-1" htmlFor="firstname" />
                 <input

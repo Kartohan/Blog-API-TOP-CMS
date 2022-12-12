@@ -206,7 +206,7 @@ const EditPost = ({ categories, authors }) => {
                 id="image"
                 accept=".png, .jpg, .jpeg"
                 onChange={handleChangeForm}
-                className="file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:transition file:bg-rose-100 hover:file:bg-rose-300"
+                className="file:!bg-rose-100 file:!text-black file:hover:!bg-rose-400 file:!rounded-lg file:!m-0 file:!mr-3 file:!px-4"
               />
             </div>
             <div className="my-2">{message && displayMessage(message)}</div>
