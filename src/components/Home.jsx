@@ -7,7 +7,7 @@ import CommentsBar from "./CommentsBar";
 const Home = ({ user }) => {
   const [posts, setPosts] = useState([]);
   useEffect(() => {
-    fetch("https://blog-api-top-server-production.up.railway.app/")
+    fetch(import.meta.env.VITE_URL)
       .then((res) => res.json())
       .then((data) => {
         data.posts.reverse();

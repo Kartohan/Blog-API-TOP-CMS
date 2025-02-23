@@ -20,7 +20,7 @@ const NewAuthor = ({ user, setAuthors }) => {
     let newForm = { ...form, user: _id };
     axios
       .post(
-        "https://blog-api-top-server-production.up.railway.app/api/author/new_author",
+        `${import.meta.env.VITE_URL}api/author/new_author`,
         newForm,
         {
           headers: {
@@ -33,7 +33,7 @@ const NewAuthor = ({ user, setAuthors }) => {
           setMessage(res.data);
           axios
             .get(
-              "https://blog-api-top-server-production.up.railway.app/api/author"
+              `${import.meta.env.VITE_URL}api/author`
             )
             .then((res) => setAuthors(res.data));
           setForm({

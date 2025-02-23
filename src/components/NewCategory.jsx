@@ -18,7 +18,7 @@ const NewCategory = ({ setCategories }) => {
     e.preventDefault();
     axios
       .post(
-        "https://blog-api-top-server-production.up.railway.app/api/category/new_category",
+        `${import.meta.env.VITE_URL}api/category/new_category`,
         form,
         {
           headers: {
@@ -31,7 +31,7 @@ const NewCategory = ({ setCategories }) => {
           setCategories(() =>
             axios
               .get(
-                "https://blog-api-top-server-production.up.railway.app/api/category"
+                `${import.meta.env.VITE_URL}api/category`
               )
               .then((res) => setCategories(res.data))
           );

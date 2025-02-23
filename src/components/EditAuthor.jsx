@@ -16,7 +16,7 @@ const EditAuthor = ({ setAuthors }) => {
   useEffect(() => {
     axios
       .get(
-        `https://blog-api-top-server-production.up.railway.app/api/author/${author_id}`
+        `${import.meta.env.VITE_URL}api/author/${author_id}`
       )
       .then((res) => {
         if (res.data.author) {
@@ -38,7 +38,7 @@ const EditAuthor = ({ setAuthors }) => {
     e.preventDefault();
     axios
       .put(
-        `https://blog-api-top-server-production.up.railway.app/api/author/${author_id}`,
+        `${import.meta.env.VITE_URL}api/author/${author_id}`,
         form,
         {
           headers: {
@@ -50,7 +50,7 @@ const EditAuthor = ({ setAuthors }) => {
         if (res.data.message) {
           axios
             .get(
-              "https://blog-api-top-server-production.up.railway.app/api/author"
+              `${import.meta.env.VITE_URL}api/author`
             )
             .then((res) => setAuthors(res.data));
           navigate("/manager");

@@ -9,7 +9,7 @@ const Category = () => {
   const [data, setData] = useState([]);
   useEffect(() => {
     fetch(
-      `https://blog-api-top-server-production.up.railway.app/api/category/${category_id}`
+      `${import.meta.env.VITE_URL}api/category/${category_id}`
     )
       .then((res) => res.json())
       .then((data) => {

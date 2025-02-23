@@ -16,7 +16,7 @@ const Manager = ({ authors, categories, setAuthors, setCategories }) => {
     const token = localStorage.getItem("token");
     axios
       .delete(
-        `https://blog-api-top-server-production.up.railway.app/api/author/${author_id.value}`,
+        `${import.meta.env.VITE_URL}api/author/${author_id.value}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

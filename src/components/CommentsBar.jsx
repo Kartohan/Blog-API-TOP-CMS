@@ -6,7 +6,7 @@ const CommentsBar = () => {
   useEffect(() => {
     axios
       .get(
-        "https://blog-api-top-server-production.up.railway.app/api/posts/last_comments"
+        `${import.meta.env.VITE_URL}api/posts/last_comments`
       )
       .then((res) => setComments(res.data));
   }, []);

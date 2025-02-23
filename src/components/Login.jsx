@@ -20,7 +20,7 @@ const Login = ({ setToken, isExpired }) => {
     e.preventDefault();
     axios
       .post(
-        `https://blog-api-top-server-production.up.railway.app/api/users/login`,
+        `${import.meta.env.VITE_URL}api/users/login`,
         form
       )
       .then((res) => {
@@ -31,8 +31,7 @@ const Login = ({ setToken, isExpired }) => {
             navigate("/");
           }
         } else if (res.data.error) {
-          setMessage(res.data);
-          console.log(res.data);
+          setMessage(res.data);;
         }
       });
   };

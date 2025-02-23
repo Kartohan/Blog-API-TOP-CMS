@@ -24,10 +24,10 @@ function App() {
   isExpired === true ? (decodedToken = null) : null;
   useEffect(() => {
     axios
-      .get("https://blog-api-top-server-production.up.railway.app/api/category")
+      .get(`${import.meta.env.VITE_URL}api/category`)
       .then((res) => setCategories(res.data));
     axios
-      .get("https://blog-api-top-server-production.up.railway.app/api/author")
+      .get(`${import.meta.env.VITE_URL}api/author`)
       .then((res) => setAuthors(res.data));
   }, []);
   return (
